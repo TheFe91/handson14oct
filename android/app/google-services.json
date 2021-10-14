@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1088595019707",
+    "project_id": "handson14ott",
+    "storage_bucket": "handson14ott.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088595019707:android:24bca15ad5712600c2669e",
+        "android_client_info": {
+          "package_name": "net.rollercoders.handson14oct"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088595019707-g7hrb828hjdf9435pf0t8h7ahg074gsc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh4vR0-4iIBftX00fytmPY-vDX7ZAWLJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088595019707-g7hrb828hjdf9435pf0t8h7ahg074gsc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
