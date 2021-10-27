@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1088595019707-0fbgfmp09d4t2k7b3rim712l3q06jsaf.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1088595019707-0fbgfmp09d4t2k7b3rim712l3q06jsaf</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDfy2tilQGu04F8PEXk2qIPGnkaofdE6aU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1088595019707</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>net.rollercoders.handson14ott</string>
+	<key>PROJECT_ID</key>
+	<string>handson14ott</string>
+	<key>STORAGE_BUCKET</key>
+	<string>handson14ott.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1088595019707:ios:361780aec34613d3c2669e</string>
+</dict>
+</plist>

@@ -20,9 +20,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    final credentials = GetStorage().read('credentials');
+
+    final String? name = credentials != null ? credentials['name'] : '';
+    final String? surname = credentials != null ? credentials['surname'] : '';
+
+    return GetMaterialApp(
       title: 'HandsOn',
-      home: HandsOn(),
+      home: name != null && surname != null
+          ? ChatPage(name: name, surname: surname)
+          : const HandsOn(),
     );
   }
 }
@@ -46,10 +53,20 @@ class _HandsOnState extends State<HandsOn> {
   }
 
   void _goToChatPage() {
-    // GETX NAVIGATION
-    Get.to(() => const ChatPage());
+    GetStorage().write(
+      'credentials',
+      {'name': _nameController.text, 'surname': _surnameController.text},
+    );
 
-    // STANDARD NAVIGATION - NON SI FA!!!
+    // GETX NAVIGATION
+    Get.to(
+      () => ChatPage(
+        name: _nameController.text,
+        surname: _surnameController.text,
+      ),
+    );
+
+    // STANDARD NAVIGATION - SCONSIGLIATO
     // Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatPage()));
   }
 
@@ -61,7 +78,7 @@ class _HandsOnState extends State<HandsOn> {
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
