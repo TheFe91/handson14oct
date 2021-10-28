@@ -29,7 +29,7 @@ class MessageBubble extends StatelessWidget {
           crossAxisAlignment:
               isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            Text(username),
+            Text('$username${isModerator ? ' (MODERATOR)' : ''}'),
             Container(
               decoration: BoxDecoration(
                 color: isMe ? Colors.black26 : Colors.lightBlue,

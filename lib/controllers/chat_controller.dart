@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:handson14ott/models/chat_message.dart';
 
@@ -35,7 +36,23 @@ class ChatController extends GetxController {
     }
   }
 
-  void removeMessage(String messageId) {
-    chatMessages.removeWhere((chatMessage) => chatMessage.id == messageId);
+  Future<void> sendMessage(
+    String username,
+    bool isModerator,
+    FocusNode textFocusNode,
+    TextEditingController controller,
+  ) async {
+    textFocusNode.requestFocus();
+    await FirebaseFirestore.instance.collection('chat').add({
+      'message': controller.text,
+      'createdAt': Timestamp.now(),
+      'username': username,
+      'isModerator': isModerator,
+    });
+    controller.text = '';
+  }
+
+  Future<void> removeMessage(String messageId) async {
+    await FirebaseFirestore.instance.collection('chat').doc(messageId).delete();
   }
 }

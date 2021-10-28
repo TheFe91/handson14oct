@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:handson14ott/chat_page.dart';
+import 'package:handson14ott/controllers/auth_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,6 +12,8 @@ void main() async {
   await Firebase.initializeApp();
 
   await GetStorage.init();
+
+  Get.put(AuthController());
 
   runApp(const MyApp());
 }
@@ -20,16 +23,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final credentials = GetStorage().read('credentials');
+    final Map<String, dynamic>? credentials = GetStorage().read('credentials');
 
-    final String? name = credentials != null ? credentials['name'] : '';
-    final String? surname = credentials != null ? credentials['surname'] : '';
+    if (credentials != null) {
+      final String? name = credentials['name'];
+      final String? surname = credentials['surname'];
+      final bool isModerator = credentials['isModerator'] ?? false;
 
-    return GetMaterialApp(
+      final AuthController authController = Get.find<AuthController>();
+      authController.name = name;
+      authController.surname = surname;
+      authController.isModerator = isModerator;
+
+      return const GetMaterialApp(
+        title: 'HandsOn',
+        home: ChatPage(),
+      );
+    }
+
+    return const GetMaterialApp(
       title: 'HandsOn',
-      home: name != null && surname != null
-          ? ChatPage(name: name, surname: surname)
-          : const HandsOn(),
+      home: HandsOn(),
     );
   }
 }
@@ -44,6 +58,13 @@ class HandsOn extends StatefulWidget {
 class _HandsOnState extends State<HandsOn> {
   late final TextEditingController _nameController;
   late final TextEditingController _surnameController;
+  bool isModerator = false;
+
+  void _checkUncheckModerator() {
+    setState(() {
+      isModerator = !isModerator;
+    });
+  }
 
   @override
   void initState() {
@@ -53,21 +74,31 @@ class _HandsOnState extends State<HandsOn> {
   }
 
   void _goToChatPage() {
-    GetStorage().write(
-      'credentials',
-      {'name': _nameController.text, 'surname': _surnameController.text},
-    );
+    if (_nameController.text != '' && _surnameController.text != '') {
+      GetStorage().write(
+        'credentials',
+        {
+          'name': _nameController.text,
+          'surname': _surnameController.text,
+          'isModerator': isModerator,
+        },
+      );
 
-    // GETX NAVIGATION
-    Get.to(
-      () => ChatPage(
-        name: _nameController.text,
-        surname: _surnameController.text,
-      ),
-    );
+      final AuthController authController = Get.find<AuthController>();
+      authController.name = _nameController.text;
+      authController.surname = _surnameController.text;
+      authController.isModerator = isModerator;
 
-    // STANDARD NAVIGATION - SCONSIGLIATO
-    // Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatPage()));
+      // GETX NAVIGATION
+      Get.to(() => const ChatPage());
+
+      // STANDARD NAVIGATION - SCONSIGLIATO
+      // Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatPage()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Riempire nome e cognome')),
+      );
+    }
   }
 
   @override
@@ -92,9 +123,17 @@ class _HandsOnState extends State<HandsOn> {
                 decoration: const InputDecoration(hintText: 'Cognome'),
               ),
               Row(
-                children: const [
-                  Text('MODERATOR: '),
-                  Icon(Icons.check_box_outline_blank),
+                children: [
+                  const Text('MODERATOR: '),
+                  IconButton(
+                    color: Colors.blue,
+                    icon: Icon(
+                      isModerator
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                    ),
+                    onPressed: _checkUncheckModerator,
+                  ),
                 ],
               )
             ],
